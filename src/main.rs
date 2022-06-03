@@ -62,6 +62,7 @@ fn cell(row: usize, col: usize) -> impl Widget<TicTacToeState> {
     .on_click(move |_ctx, data: &mut TicTacToeState, _env| {
         if data.player.is_none() {
             data.player = Some(data.board.turn);
+            data.message = format!("Tic-Tac-Toe, playing as {}", data.board.turn);
         }
 
         if data.board.result.is_none() && data.board.rows[row][col].is_none() {
@@ -121,7 +122,7 @@ fn pick_player() -> impl Widget<TicTacToeState> {
                 move |_ctx, data: &mut TicTacToeState, _env| {
                     data.board = Board::new();
                     data.player = Some(Player::X);
-                    data.message = String::new();
+                    data.message = format!("Tic-Tac-Toe, playing as {}", data.board.turn);
                 },
             ))
             .width(50.)
@@ -133,8 +134,8 @@ fn pick_player() -> impl Widget<TicTacToeState> {
                 move |_ctx, data: &mut TicTacToeState, _env| {
                     data.board = Board::new();
                     data.player = Some(Player::O);
-                    data.message = String::new();
                     data.board.turn(find_best_move(data.board)).unwrap();
+                    data.message = format!("Tic-Tac-Toe, playing as {}", data.board.turn);
                 },
             ))
             .width(50.)

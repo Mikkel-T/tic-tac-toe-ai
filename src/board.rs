@@ -100,10 +100,7 @@ fn equals_three(a: Option<Player>, b: Option<Player>, c: Option<Player>) -> bool
 
 pub fn cell_to_string(cell: Option<Player>) -> String {
     match cell {
-        Some(player) => match player {
-            Player::X => "X".to_string(),
-            Player::O => "O".to_string(),
-        },
+        Some(player) => format!("{}", player),
         None => " ".to_string(),
     }
 }
@@ -123,10 +120,19 @@ impl GameResult {
     }
 }
 
+impl fmt::Display for Player {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            Player::X => write!(f, "X"),
+            Player::O => write!(f, "O"),
+        }
+    }
+}
+
 impl fmt::Display for GameResult {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            GameResult::P(player) => write!(f, "{}", cell_to_string(Some(player))),
+            GameResult::P(player) => write!(f, "{}", player),
             GameResult::Tie => write!(f, "Tie"),
         }
     }
