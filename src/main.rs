@@ -19,7 +19,7 @@ struct TicTacToeState {
 
 fn main() {
     let main_window = WindowDesc::new(build_root_widget())
-        .title("Tic Tac Toe")
+        .title("Tic-Tac-Toe")
         .window_size((400.0, 470.0));
 
     // Initialize state
