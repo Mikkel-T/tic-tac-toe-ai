@@ -33,7 +33,7 @@ pub fn find_best_move(board: Board) -> Move {
 
     if best_move.none {
         // TODO Error Handling
-        panic!("An unexpecter error occurred.");
+        panic!("An unexpected error occurred.");
     } else {
         best_move
     }
