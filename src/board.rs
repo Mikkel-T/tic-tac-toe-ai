@@ -1,33 +1,48 @@
 use druid::Data;
 use std::fmt;
 
+/// The board the game is played on
 #[derive(Copy, Clone, Data)]
 pub struct Board {
+    /// The player who is currently moving
     pub turn: Player,
+    /// State of the game
     pub rows: [[Option<Player>; 3]; 3],
+    /// Result, if any
     pub result: Option<GameResult>,
 }
 
+/// Move made ny a player
 #[derive(Copy, Clone)]
 pub struct Move {
+    /// The row the player puts their piece on
     pub row: usize,
+    /// The col the player puts their piece on
     pub col: usize,
+    /// True if it is the players "final" move, else false
     pub none: bool,
 }
 
+/// The result of the game
 #[derive(Copy, Clone, Data)]
 pub enum GameResult {
+    /// If a player won, then which player
     P(Player),
+    /// A tie
     Tie,
 }
 
+/// The players playing the game
 #[derive(Copy, Clone, PartialEq, Data)]
 pub enum Player {
+    /// The player X
     X,
+    /// The player O
     O,
 }
 
 impl Board {
+    /// Create a new board
     pub fn new() -> Board {
         return Board {
             turn: Player::X,
@@ -36,6 +51,7 @@ impl Board {
         };
     }
 
+    /// Put a piece on the board
     pub fn turn(&mut self, m: Move) -> Result<(), &str> {
         if self.result.is_none() {
             if m.col > 2 || m.row > 2 {
@@ -54,6 +70,7 @@ impl Board {
         Ok(())
     }
 
+    /// Check if there is a winner
     pub fn check_winner(&self) -> Option<GameResult> {
         let mut winner = None;
 
@@ -94,10 +111,12 @@ impl Board {
     }
 }
 
+/// Check if three values equals each other
 fn equals_three(a: Option<Player>, b: Option<Player>, c: Option<Player>) -> bool {
     return a == b && a == c && b == c && a.is_some();
 }
 
+/// Convert a cell
 pub fn cell_to_string(cell: Option<Player>) -> String {
     match cell {
         Some(player) => format!("{}", player),
@@ -106,6 +125,7 @@ pub fn cell_to_string(cell: Option<Player>) -> String {
 }
 
 impl GameResult {
+    /// Returns the current "score" based on who is winning
     pub fn score(&self, p: Player) -> i32 {
         match self {
             GameResult::P(player) => {

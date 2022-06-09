@@ -1,5 +1,6 @@
 use crate::board::{Board, Move, Player};
 
+/// Find the best current move for the current player
 pub fn find_best_move(board: Board) -> Move {
     let mut best_score = std::i32::MIN;
     let mut best_move = Move {
@@ -39,6 +40,7 @@ pub fn find_best_move(board: Board) -> Move {
     }
 }
 
+/// Minimax algorithm to find the best move for the current player
 fn minimax(board: Board, is_maximzing: bool, player: Player) -> i32 {
     let result = board.check_winner();
     if result.is_some() {

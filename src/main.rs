@@ -12,8 +12,11 @@ use druid::{
 
 #[derive(Clone, Data, Lens)]
 struct TicTacToeState {
+    /// The piece the human player has
     player: Option<Player>,
+    /// The message at the top of the screen
     message: String,
+    /// The board
     board: Board,
 }
 
