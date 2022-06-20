@@ -19,7 +19,7 @@ pub fn find_best_move(board: Board) -> Move {
                         none: false,
                     })
                     .unwrap();
-                let score = minimax(tmp_board, false, board.turn);
+                let score = minimax(tmp_board, false, board.turn, std::i32::MIN, std::i32::MAX);
                 if score > best_score {
                     best_move = Move {
                         row: i,
@@ -41,7 +41,7 @@ pub fn find_best_move(board: Board) -> Move {
 }
 
 /// Minimax algorithm to find the best move for the current player
-fn minimax(board: Board, is_maximzing: bool, player: Player) -> i32 {
+fn minimax(board: Board, is_maximzing: bool, player: Player, mut alpha: i32, mut beta: i32) -> i32 {
     let result = board.check_winner();
     if result.is_some() {
         return result.unwrap().score(player);
@@ -60,8 +60,12 @@ fn minimax(board: Board, is_maximzing: bool, player: Player) -> i32 {
                             none: false,
                         })
                         .unwrap();
-                    let score = minimax(tmp_board, false, player);
+                    let score = minimax(tmp_board, false, player, alpha, beta);
                     best_score = std::cmp::max(score, best_score);
+                    alpha = std::cmp::max(alpha, best_score);
+                    if beta <= alpha {
+                        break;
+                    }
                 }
             }
         }
@@ -79,8 +83,12 @@ fn minimax(board: Board, is_maximzing: bool, player: Player) -> i32 {
                             none: false,
                         })
                         .unwrap();
-                    let score = minimax(tmp_board, true, player);
+                    let score = minimax(tmp_board, true, player, alpha, beta);
                     best_score = std::cmp::min(score, best_score);
+                    beta = std::cmp::min(beta, best_score);
+                    if beta <= alpha {
+                        break;
+                    }
                 }
             }
         }
