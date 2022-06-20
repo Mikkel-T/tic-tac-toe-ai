@@ -67,6 +67,9 @@ fn minimax(board: Board, is_maximzing: bool, player: Player, mut alpha: i32, mut
                         break;
                     }
                 }
+                if beta <= alpha {
+                    break;
+                }
             }
         }
         best_score
@@ -89,6 +92,9 @@ fn minimax(board: Board, is_maximzing: bool, player: Player, mut alpha: i32, mut
                     if beta <= alpha {
                         break;
                     }
+                }
+                if beta <= alpha {
+                    break;
                 }
             }
         }
