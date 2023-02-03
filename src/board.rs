@@ -2,7 +2,7 @@ use druid::Data;
 use std::fmt;
 
 /// The board the game is played on
-#[derive(Copy, Clone, Data)]
+#[derive(Copy, Clone, Data, Debug)]
 pub struct Board {
     /// The player who is currently moving
     pub turn: Player,
@@ -13,7 +13,7 @@ pub struct Board {
 }
 
 /// Move made ny a player
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Move {
     /// The row the player puts their piece on
     pub row: usize,
@@ -24,7 +24,7 @@ pub struct Move {
 }
 
 /// The result of the game
-#[derive(Copy, Clone, Data)]
+#[derive(Copy, Clone, Data, Debug)]
 pub enum GameResult {
     /// If a player won, then which player
     P(Player),
@@ -33,7 +33,7 @@ pub enum GameResult {
 }
 
 /// The players playing the game
-#[derive(Copy, Clone, PartialEq, Data)]
+#[derive(Copy, Clone, PartialEq, Data, Debug)]
 pub enum Player {
     /// The player X
     X,

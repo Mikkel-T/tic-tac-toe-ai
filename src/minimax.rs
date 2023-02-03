@@ -1,13 +1,11 @@
 use crate::board::{Board, Move, Player};
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
 /// Find the best current move for the current player
 pub fn find_best_move(board: Board) -> Move {
     let mut best_score = std::i32::MIN;
-    let mut best_move = Move {
-        none: true,
-        row: 0,
-        col: 0,
-    };
+    let mut best_moves: Vec<Move> = Vec::new();
     for (i, row) in board.rows.iter().enumerate() {
         for (j, cell) in row.iter().enumerate() {
             if cell.is_none() {
@@ -27,24 +25,34 @@ pub fn find_best_move(board: Board) -> Move {
                     std::i32::MIN,
                     std::i32::MAX,
                 );
+
                 if score > best_score {
-                    best_move = Move {
+                    best_moves = vec![Move {
                         row: i,
                         col: j,
                         none: false,
-                    };
+                    }];
+
                     best_score = score;
+                } else if score == best_score {
+                    best_moves.push(Move {
+                        row: i,
+                        col: j,
+                        none: false,
+                    });
                 }
             }
         }
     }
 
-    if best_move.none {
+    let mut rng = thread_rng();
+    let best_move = best_moves.choose(&mut rng);
+    if best_move.is_none() {
         // TODO Error Handling
         panic!("An unexpected error occurred.");
-    } else {
-        best_move
     }
+
+    best_move.unwrap().to_owned()
 }
 
 /// Minimax algorithm to find the best move for the current player
